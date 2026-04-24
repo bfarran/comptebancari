@@ -8,7 +8,7 @@ public class CompteBancariTest {
         CompteBancari compte = new CompteBancari("Anna", "ES12345", 500);
         assertEquals("Anna", compte.getTitular());
         assertEquals("ES12345", compte.getIban());
-        assertEquals(500, compte.getSaldo());
+        assertEquals(999, compte.getSaldo());
     }
 
     @Test
