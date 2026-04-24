@@ -1,64 +1,69 @@
 public class CompteBancari {
 
-    private static final double LLINDAR_SALDO_BAIX = 1000;
-    private static final double LLINDAR_SALDO_NORMAL = 5000;
-
     private String titular;
     private String iban;
     private double saldo;
 
     public CompteBancari(String titular, String iban, double saldoInicial) {
-        if (titular == null || titular.isBlank()) {
-            throw new IllegalArgumentException("El titular no pot ser buit");
+        if (titular == null || titular.equals("")) {
+            throw new IllegalArgumentException("Error titular");
         }
-        if (iban == null || iban.isBlank()) {
-            throw new IllegalArgumentException("L'IBAN no pot ser buit");
+        if (iban == null || iban.equals("")) {
+            throw new IllegalArgumentException("Error iban");
         }
         if (saldoInicial < 0) {
-            throw new IllegalArgumentException(
-                    "El saldo inicial no pot ser negatiu");
+            throw new IllegalArgumentException("Error saldo");
         }
         this.titular = titular;
         this.iban = iban;
         this.saldo = saldoInicial;
     }
 
-    public void ingressar(double quantitat) {
-        if (quantitat <= 0) {
-            throw new IllegalArgumentException(
-                    "La quantitat a ingressar ha de ser positiva");
+    public void ingressar(double q) {
+        if (q <= 0) {
+            throw new IllegalArgumentException("Error");
+        } else {
+            System.out.println("Ingrés iniciat");
+            saldo = saldo + q;
+            System.out.println("S'ha ingressat " + q);
+            System.out.println("Saldo actual " + saldo);
+            obtenirEstatSaldo();
+            System.out.println("Ingrés acabat");
         }
-        saldo += quantitat;
     }
 
-    public void retirar(double quantitat) {
-        if (quantitat <= 0) {
-            throw new IllegalArgumentException(
-                    "La quantitat a retirar ha de ser positiva");
+    private void obtenirEstatSaldo() {
+        if (saldo < 1000) {
+            System.out.println("Saldo baix");
+        } else if (saldo >= 1000 && saldo < 5000) {
+            System.out.println("Saldo normal");
+        } else {
+            System.out.println("Saldo alt");
         }
-        if (quantitat > saldo) {
-            throw new IllegalArgumentException(
-                    "Saldo insuficient per retirar " + quantitat);
+    }
+
+    public void retirar(double q) {
+        if (q <= 0) {
+            throw new IllegalArgumentException("Error");
+        } else {
+            if (q > saldo) {
+                throw new IllegalArgumentException("Error");
+            } else {
+                System.out.println("Retirada iniciada");
+                saldo = saldo - q;
+                System.out.println("S'ha retirat " + q);
+                System.out.println("Saldo actual " + saldo);
+                obtenirEstatSaldo();
+                System.out.println("Retirada acabada");
+            }
         }
-        saldo -= quantitat;
     }
 
     public void mostrarDades() {
         System.out.println("Titular: " + titular);
         System.out.println("IBAN: " + iban);
         System.out.println("Saldo: " + saldo);
-        System.out.println(obtenirEstatSaldo());
-    }
-
-    // Mètode extret per eliminar el codi duplicat
-    private String obtenirEstatSaldo() {
-        if (saldo < LLINDAR_SALDO_BAIX) {
-            return "Saldo baix";
-        }
-        if (saldo < LLINDAR_SALDO_NORMAL) {
-            return "Saldo normal";
-        }
-        return "Saldo alt";
+        obtenirEstatSaldo();
     }
 
     public String getTitular() {
